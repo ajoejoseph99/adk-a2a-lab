@@ -14,6 +14,13 @@ RETRY_OPTIONS = HttpRetryOptions(initial_delay=1, max_delay=3, attempts=30)
 plugins = [LabExUtils()]
 
 # Agents
+illustration_agent = RemoteA2aAgent(
+    name="illustration_agent",
+    description="Agent that generates illustrations.",
+    agent_card=(
+        "illustration-agent-card.json"
+    ),
+)
 
 root_agent = LlmAgent(
     model=Gemini(model=os.getenv("MODEL"), retry_options=RETRY_OPTIONS),
@@ -27,6 +34,7 @@ root_agent = LlmAgent(
         Then transfer to the 'illustration_agent' to generate an illustration related to this idea.
         """,
 	# Add the sub_agents parameter below
+    sub_agents=[illustration_agent]
 
 )
 
